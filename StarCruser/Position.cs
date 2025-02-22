@@ -1,4 +1,6 @@
-﻿class Position
+﻿using System.Numerics;
+
+class Position
 {
     public static void UpdateStarPositions(List<GameObject> stars)
     {
@@ -6,11 +8,14 @@
         {
             GameObject star = stars[i];
             Draw.SetCursorAndDraw(star.xPos, star.yPos);
-            star.yPos = star.yPos + 1;
-            if (star.hasCollison && (star.xPos == Program.player.posX || star.xPos == Program.player.posX + Grafix.player.Length - 1))
+            int[] playerPosStart = { Program.player.GetPosX(), Program.player.GetPosY()};
+            int[] playerPosEnd = { Program.player.GetPosX() + Grafix.player.Length, Program.player.GetPosY() };
+            star.yPos++;
+            int[] starPos = { star.xPos, star.yPos };
+            if (star.hasCollison && (playerPosStart.SequenceEqual(starPos) || playerPosEnd.SequenceEqual(starPos)))
             {
-                Program.player.lives--;
-                if (Program.player.lives == 0)
+                Program.player.SetLives(Program.player.GetLives()-1);
+                if (Program.player.GetLives() == 0)
                 {
                     Console.Clear();
                     Console.WriteLine("GameOver!!!");
@@ -19,7 +24,7 @@
             }
             if (star.yPos > Settings.windowSizeY - 1)
             {
-                stars.Remove(star);
+                stars.RemoveAt(i);
             }
         }
     }
@@ -30,18 +35,20 @@
             Program.GameTick(speed);
             return;
         }
-
+        
         for (int i = list.Count - 1; i >= 0; i--)
         {
+
             GameObject p = list[i];
+            Draw.SetCursorAndDraw(p.xPos, p.yPos);
             if (p.isPlayer)
             {
-                Draw.SetCursorAndDraw(p.xPos, p.yPos);
+                
                 p.yPos--;
             }
             else
             {
-                Draw.SetCursorAndDraw(p.xPos, p.yPos);
+                
                 p.yPos++;
             }
             if (p.yPos < 5 || p.yPos > Settings.windowSizeY - 2)

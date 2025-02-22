@@ -13,8 +13,8 @@
     {
         GameObject newObject = new GameObject
         {
-            xPos = yPos,
-            yPos = xPos,
+            xPos = xPos,
+            yPos = yPos,
             isPlayer = isPlayer,
             hasCollison = hasCollision
 

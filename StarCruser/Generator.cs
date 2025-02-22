@@ -10,16 +10,15 @@ class Generator
         int randGen = randX.Next(0, 100);
         if (randGen > 80)
         {
-            if (Program.starCount == 50)
+            if (Program.starCount == 1)
             {
                 starHasCollison = true;
                 Program.starCount = 0;
             }
             int randStarX = randX.Next(2, Settings.windowSizeX - 3);
-            GameObject star = GameObject.CreateNewObject(randStarX, 7, false, starHasCollison);
+            GameObject star = GameObject.CreateNewObject(randStarX, Settings.gameFieldStartY, false, starHasCollison);
             stars.Add(star);
             Program.starCount++;
-
         }
     }
 

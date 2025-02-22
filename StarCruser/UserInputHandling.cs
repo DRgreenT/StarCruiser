@@ -11,24 +11,28 @@
             ConsoleKey key = keyInfo.Key;
             bool isShiftPressed = (keyInfo.Modifiers & ConsoleModifiers.Shift) != 0;
             int range = isShiftPressed ? 5 : 1;
-            range = Program.player.posX - range < 0 || Program.player.posX + range > windowSizeX - 3 ? 1 : range;
-            // Clear the old player position
-            Draw.SetCursorAndDraw(Program.player.posX, windowSizeY - 1, "  ");
-
-            // Handle movement
-            if (key == ConsoleKey.LeftArrow && Program.player.posX > 1)
+            if(Program.player.GetPosX() - range < 0 || Program.player.GetPosX() + range > windowSizeX - 3)
             {
-                Program.player.posX = Program.player.posX - range;
+                range = 1;
             }
-            if (key == ConsoleKey.RightArrow && Program.player.posX < windowSizeX - 3)
+           
+            // Handle movement
+            if (key == ConsoleKey.LeftArrow && Program.player.GetPosX() > 1)
             {
-                Program.player.posX = Program.player.posX + range;
+                Draw.SetCursorAndDraw(Program.player.GetPosX(), windowSizeY - 1, "  ");
+                Program.player.SetPosX(Program.player.GetPosX() - range);
+            }
+            if (key == ConsoleKey.RightArrow && Program.player.GetPosX() < windowSizeX - 3)
+            {
+                Draw.SetCursorAndDraw(Program.player.GetPosX(), windowSizeY - 1, "  ");
+                Program.player.SetPosX(Program.player.GetPosX() + range);
             }
 
             // Handle shooting (Spacebar or Shift + Arrow)
             if (key == ConsoleKey.Spacebar)
             {
-                Program.projectils.Add(GameObject.CreateNewObject(Program.player.posX, Program.player.posY - 1));
+                GameObject p = GameObject.CreateNewObject(Program.player.GetPosX(), Program.player.GetPosY() - 1,true);
+                Program.projectils.Add(p);
             }
         }
     }

@@ -38,9 +38,9 @@ public class Draw
     {
         if (!isStar)
         {
-            foreach (var gameObject in gameObjects)
+            for (int i = 0; i < gameObjects.Count; i++)
             {
-                SetCursorAndDraw(gameObject.xPos, gameObject.yPos, grafix);
+                SetCursorAndDraw(gameObjects[i].xPos, gameObjects[i].yPos, grafix);
             }
         }
         else
@@ -48,9 +48,14 @@ public class Draw
             foreach (var star in gameObjects)
             {
                 if (!star.hasCollison)
+                {
                     SetCursorAndDraw(star.xPos, star.yPos, Grafix.star);
+                }                    
                 else
+                {
                     SetCursorAndDraw(star.xPos, star.yPos, Grafix.blueStar);
+                }
+                    
             }
         }
 
@@ -77,24 +82,27 @@ public class Draw
             }
         }
     }
-    public static void Info(int score = 0, int level = 1, int lives = 5, bool isDebug = true)
+    public static void Info(bool isDebug = true)
     {
         int windowSizeX = Settings.windowSizeX;
 
-        string scoreStr = $"Score: " + score.ToString().PadLeft(5, '0');
+        string scoreStr = $"Score: " + Program.player.GetScore().ToString().PadLeft(5, '0');
         SetCursorAndDraw(5, 1, scoreStr);
 
-        string levelStr = $"Level:    " + level.ToString().PadLeft(2, '0');
+        string levelStr = $"Level:    " + Program.player.GetLevel().ToString().PadLeft(2, '0');
         SetCursorAndDraw(5, 3, levelStr);
 
-        const string live = "¤ ";
+        string live = Color.Red("¤ ");
         string totallives = "Lives: ";
 
-        for (int i = 0; i < lives; i++)
+        for (int i = 0; i < Program.player.GetLives(); i++)
         {
             totallives += live;
         }
-
+        // for (int i = 0; i < 15; i++)
+        {
+            SetCursorAndDraw(windowSizeX - i, 3);
+        }
         SetCursorAndDraw(windowSizeX - 20, 3, totallives);
 
         if (isDebug)

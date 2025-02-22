@@ -3,7 +3,6 @@
     public static readonly int windowSizeX = 120;
     public static readonly int windowSizeY = 30;
     public static readonly int gameFieldStartY = 7;
-    public static int playerPosition = 0;
     public static decimal gameSpeed = 75;
     public static decimal gameSpeedMultiplier = 1;
 
