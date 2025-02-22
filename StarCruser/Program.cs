@@ -1,14 +1,10 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks.Sources;
-
-class Program
+﻿class Program
 {
 
-    public static List<GameObject> projectils;
-    public static List<GameObject> stars;
-    public static List<GameObject> enemies;
-    public static Player? player = null;
+    public static List<GameObject> projectils = new();
+    public static List<GameObject> stars = new();
+    public static List<GameObject> enemies = new();
+    public static Player? player = new();
 
     public static int objectCounter = 0;
     public static int starCount = 0;
@@ -56,7 +52,6 @@ class Program
             SpawNewGameObjects();
             DrawGameObjects();
             System.Threading.Thread.Sleep(75);
-
         }
     }
 
@@ -81,8 +76,6 @@ class Program
         Position.UpdateEnemyPosition(enemies);
         await Task.Run(() => Position.UpdateProjectilesPositions(projectils, 500));
     }
-
-
 
     
     public static async Task GameTick(int timePerTick)
