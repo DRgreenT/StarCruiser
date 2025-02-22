@@ -1,6 +1,4 @@
-﻿using System.Security.Principal;
-
-public class Grafix
+﻿public class Grafix
 {
     public static readonly string bullet = Color.Yellow("|");
     public static readonly string player = Color.Green(@"/\");
@@ -15,7 +13,7 @@ public class Grafix
 
 public class Draw
 {
-    public static void SetCursorAndWrite(int x, int y, string str = " ", bool isDebug = true)
+    public static void SetCursorAndDraw(int x, int y, string str = " ", bool isDebug = true)
     {
         try
         {
@@ -31,7 +29,7 @@ public class Draw
                     ": X:" + x.ToString().PadLeft(3, '0') +
                     " Y:" + y.ToString().PadLeft(3, '0') +
                     " Content: " + str +
-                    "\n" + ex.Message);
+                    "\n" + ex.Message + "\n");
             }
         }
     }
@@ -42,7 +40,7 @@ public class Draw
         {
             foreach (var gameObject in gameObjects)
             {
-                SetCursorAndWrite(gameObject.xPos, gameObject.yPos, grafix);
+                SetCursorAndDraw(gameObject.xPos, gameObject.yPos, grafix);
             }
         }
         else
@@ -50,16 +48,16 @@ public class Draw
             foreach (var star in gameObjects)
             {
                 if (!star.hasCollison)
-                    SetCursorAndWrite(star.xPos, star.yPos, Grafix.star);
+                    SetCursorAndDraw(star.xPos, star.yPos, Grafix.star);
                 else
-                    SetCursorAndWrite(star.xPos, star.yPos, Grafix.blueStar);
+                    SetCursorAndDraw(star.xPos, star.yPos, Grafix.blueStar);
             }
         }
 
     }
     public static void Player(int xPos, int yPos)
     {
-        Draw.SetCursorAndWrite(xPos, yPos, Grafix.player);
+        SetCursorAndDraw(xPos, yPos, Grafix.player);
     }
     public static void Frame(int windowSizeX, int windowSizeY, char horizontalGfx = '_', char verticalGfx = '#')
     {
@@ -74,7 +72,7 @@ public class Draw
             {
                 if (x == 0 || x == windowSizeX - 1)
                 {
-                    Draw.SetCursorAndWrite(x, y, verticalGfx.ToString()); ;
+                    SetCursorAndDraw(x, y, verticalGfx.ToString()); ;
                 }
             }
         }
@@ -84,10 +82,10 @@ public class Draw
         int windowSizeX = Settings.windowSizeX;
 
         string scoreStr = $"Score: " + score.ToString().PadLeft(5, '0');
-        Draw.SetCursorAndWrite(5, 1, scoreStr);
+        SetCursorAndDraw(5, 1, scoreStr);
 
         string levelStr = $"Level:    " + level.ToString().PadLeft(2, '0');
-        Draw.SetCursorAndWrite(5, 3, levelStr);
+        SetCursorAndDraw(5, 3, levelStr);
 
         const string live = "¤ ";
         string totallives = "Lives: ";
@@ -97,7 +95,7 @@ public class Draw
             totallives += live;
         }
 
-        Draw.SetCursorAndWrite(windowSizeX - 20, 3, totallives);
+        SetCursorAndDraw(windowSizeX - 20, 3, totallives);
 
         if (isDebug)
         {
@@ -105,7 +103,7 @@ public class Draw
             Grafix.frameCounter++;
             string debug = $"Frame: " + Grafix.frameCounter.ToString().PadLeft(5, '0') + " ObejctsCount: " + Program.objectCounter.ToString().PadLeft(3, '0');
             //SetCursorAndWrite(windowSizeX - 20, 1, debug);
-            Draw.SetCursorAndWrite(5, 0, debug + "   starCount/starsOnScreen: " + Program.starCount.ToString().PadLeft(3, '0') + "/" + Program.stars.Count.ToString().PadLeft(2, '0'));
+            SetCursorAndDraw(5, 0, debug + "   starCount/starsOnScreen: " + Program.starCount.ToString().PadLeft(3, '0') + "/" + Program.stars.Count.ToString().PadLeft(2, '0'));
         }
     }
 

@@ -8,7 +8,6 @@
     public int score { get; set; }
 
     public bool isCollidable = true;
-
     public static Player Create()
     {
         return new Player();

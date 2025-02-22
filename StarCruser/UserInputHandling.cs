@@ -1,5 +1,4 @@
-﻿
-class UserInput
+﻿public class UserInput
 {
     public static void HandleInput()
     {
@@ -14,7 +13,7 @@ class UserInput
             int range = isShiftPressed ? 5 : 1;
             range = Program.player.posX - range < 0 || Program.player.posX + range > windowSizeX - 3 ? 1 : range;
             // Clear the old player position
-            Draw.SetCursorAndWrite(Program.player.posX, windowSizeY - 1, "  ");
+            Draw.SetCursorAndDraw(Program.player.posX, windowSizeY - 1, "  ");
 
             // Handle movement
             if (key == ConsoleKey.LeftArrow && Program.player.posX > 1)

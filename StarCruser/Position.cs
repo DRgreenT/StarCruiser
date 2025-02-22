@@ -5,7 +5,7 @@
         for (int i = stars.Count - 1; i >= 0; i--)
         {
             GameObject star = stars[i];
-            Draw.SetCursorAndWrite(star.xPos, star.yPos);
+            Draw.SetCursorAndDraw(star.xPos, star.yPos);
             star.yPos = star.yPos + 1;
             if (star.hasCollison && (star.xPos == Program.player.posX || star.xPos == Program.player.posX + Grafix.player.Length - 1))
             {
@@ -36,12 +36,12 @@
             GameObject p = list[i];
             if (p.isPlayer)
             {
-                Draw.SetCursorAndWrite(p.xPos, p.yPos);
+                Draw.SetCursorAndDraw(p.xPos, p.yPos);
                 p.yPos--;
             }
             else
             {
-                Draw.SetCursorAndWrite(p.xPos, p.yPos);
+                Draw.SetCursorAndDraw(p.xPos, p.yPos);
                 p.yPos++;
             }
             if (p.yPos < 5 || p.yPos > Settings.windowSizeY - 2)
@@ -63,12 +63,12 @@
                 switch (Program.timesUpdatePosX)
                 {
                     case < 11:
-                        Draw.SetCursorAndWrite(enemy.xPos, enemy.yPos, "   ");
+                        Draw.SetCursorAndDraw(enemy.xPos, enemy.yPos, "   ");
                         enemy.xPos++;
                         break;
 
                     case int n when (n > 10 && n < 21):
-                        Draw.SetCursorAndWrite(enemy.xPos, enemy.yPos, "   ");
+                        Draw.SetCursorAndDraw(enemy.xPos, enemy.yPos, "   ");
                         enemy.xPos--;
                         break;
 
@@ -82,7 +82,7 @@
                 {
                     foreach (var en in enemies)
                     {
-                        Draw.SetCursorAndWrite(en.xPos, en.yPos, "   ");
+                        Draw.SetCursorAndDraw(en.xPos, en.yPos, "   ");
                         en.yPos++;
                     }
                     Program.timesUpdatePosY = 0;
