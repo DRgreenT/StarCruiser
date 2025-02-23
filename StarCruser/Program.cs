@@ -4,6 +4,7 @@
     public static List<GameObject> projectils = new();
     public static List<GameObject> stars = new();
     public static List<GameObject> enemies = new();
+    public static List<Explosion> explosions = new();
     public static Player player;
 
     public static int objectCounter = 0;
@@ -49,6 +50,7 @@
         Initialise();
          while (isRunning)
         {
+
             objectCounter = stars.Count + enemies.Count + projectils.Count + 1;
             UserInput.HandleInput();
             UpdateGameObejects();
@@ -71,13 +73,14 @@
         Draw.Player(player.GetPosX(), player.GetPosY());
         Draw.GameObjects(enemies);
         Draw.GameObjects(projectils);
+        Draw.Explosion();
     }
 
     private static async Task UpdateGameObejects()
     {
         Position.UpdateStarPositions(stars);
         Position.UpdateEnemyPosition(enemies);
-        Position.UpdateProjectilesPositions(projectils, 500);
+        Position.UpdateProjectilesPositions(projectils);
         Position.CheckProjectilesCollision(stars);
         Position.CheckProjectilesCollision(enemies);
     }

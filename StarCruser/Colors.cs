@@ -5,6 +5,18 @@
     static string green = "\u001b[32m";
     static string blue = "\u001b[34m";
     static string yellow = "\u001b[33m";
+    static string orange = "\u001b[38;5;214m";
+    static string magenta = "\u001b[35m";
+
+    public static string Magenta(string str)
+    {
+        return magenta + str + standard;
+    }
+    public static string Orange(string str)
+    {
+        return orange + str + standard;
+    }
+
     public static string Red(string str)
     {
         return red + str + standard;

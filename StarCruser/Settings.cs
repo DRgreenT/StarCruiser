@@ -17,6 +17,7 @@
                 if (Console.WindowWidth != windowSizeX || Console.WindowHeight != windowSizeY)
                 {
                     Console.SetWindowSize(windowSizeX, windowSizeY);
+                    
                 }
                 Thread.Sleep(100); // Verhindert CPU-Überlastung (alle 0,5 Sek. prüfen)
             }
@@ -29,6 +30,7 @@
         Console.CursorVisible = cursorIsVisible;
         Console.OutputEncoding = System.Text.Encoding.UTF8;
         Console.SetWindowSize(windowSizeX, windowSizeY);
+       
     }
 }
 

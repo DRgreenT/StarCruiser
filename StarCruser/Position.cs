@@ -44,11 +44,11 @@ class Position
             }
         }
     }
-    public static void UpdateProjectilesPositions(List<GameObject> list, int speed = 100)
+    public static void UpdateProjectilesPositions(List<GameObject> list)
     {
         if (list.Count == 0)
         {
-            Program.GameTick(speed);
+            
             return;
         }
 
@@ -72,7 +72,6 @@ class Position
                 list.Remove(p);
             }
         }
-        Program.GameTick(speed);
     }
     static int repositionCounterX = 0;
     static int repositionCounterY = 0;
@@ -83,6 +82,7 @@ class Position
         return projectil.yPos == gameObject.yPos && Math.Abs(projectil.xPos - gameObject.xPos) <= hitBoxSize;
     }
 
+    static bool isExplosion = false;
     public static void CheckProjectilesCollision(List<GameObject> gameObjects)
     {
         for(int i = gameObjects.Count - 1; i >= 0; i--)
@@ -94,6 +94,8 @@ class Position
                 {
                     if (IsProjectilHit(gameObject, p, gameObject.hitBoxSize))
                     {
+                        Explosion ex = Explosion.Create(p.xPos - 3, p.yPos);
+                        Program.explosions.Add(ex);
                         gameObjects.RemoveAt(i);
                         Program.player.SetScore(Program.player.GetScore() + gameObject.scoreValue);
                     }

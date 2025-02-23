@@ -4,9 +4,7 @@
     public int yPos { get; set; }
     public bool isPlayer { get; set; }
     public bool hasCollison { get; set; }
-
     public int scoreValue { get; set; }
-
     public int hitBoxSize { get; set; }
     public int moveSpeed { get; set; }
 
@@ -32,5 +30,4 @@
         };
         return newObject;
     }
-
 }
