@@ -31,7 +31,7 @@
             // Handle shooting (Spacebar or Shift + Arrow)
             if (key == ConsoleKey.Spacebar)
             {
-                GameObject p = GameObject.CreateNewObject(Program.player.GetPosX(), Program.player.GetPosY() - 1,true);
+                GameObject p = GameObject.CreateNewObject(Grafix.bullet, Program.player.GetPosX(), Program.player.GetPosY() - 1,1,true);
                 Program.projectils.Add(p);
             }
         }

@@ -9,8 +9,10 @@
     public static int objectCounter = 0;
     public static int starCount = 0;
 
-    public static int timesUpdatePosX = 0;
-    public static int timesUpdatePosY = 0;
+    public static int maxEnemies = 4;
+    public static int gameSpeedAdj = 0;
+
+    public static bool isRunning = true;
     static void Main()
     {
 
@@ -34,6 +36,7 @@
         enemies = GameObject.CreateList();
 
         Settings.ConsoleSettings();
+ 
 
         Draw.Frame(Settings.windowSizeX, Settings.windowSizeY);
         Draw.Info();
@@ -42,41 +45,41 @@
     }
 
     public static void GameLoop()
-    {
+    {        
         Initialise();
-         
-        while (true)
+         while (isRunning)
         {
             objectCounter = stars.Count + enemies.Count + projectils.Count + 1;
             UserInput.HandleInput();
             UpdateGameObejects();
             SpawNewGameObjects();
             DrawGameObjects();
-            System.Threading.Thread.Sleep(75);
+            System.Threading.Thread.Sleep(75-gameSpeedAdj);
         }
     }
 
     private static void SpawNewGameObjects()
     {
         Generator.GenerateStars(stars);
-        //Generator.GenerateEnemy(enemies);
+        Generator.GenerateEnemy(enemies);
     }
 
     private static void DrawGameObjects()
     {
         Draw.Info();
-        Draw.GameObjects(stars, Grafix.star, true);
+        Draw.GameObjects(stars, true);
         Draw.Player(player.GetPosX(), player.GetPosY());
-        //Draw.GameObjects(enemies, Grafix.enemy);
-        Draw.GameObjects(projectils, Grafix.bullet);
+        Draw.GameObjects(enemies);
+        Draw.GameObjects(projectils);
     }
 
     private static async Task UpdateGameObejects()
     {
         Position.UpdateStarPositions(stars);
-        //Position.UpdateEnemyPosition(enemies);
-        /*await Task.Run(() => */
-        Position.UpdateProjectilesPositions(projectils, 500);//);
+        Position.UpdateEnemyPosition(enemies);
+        Position.UpdateProjectilesPositions(projectils, 500);
+        Position.CheckProjectilesCollision(stars);
+        Position.CheckProjectilesCollision(enemies);
     }
 
     

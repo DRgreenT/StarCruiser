@@ -2,7 +2,8 @@
 {
     public static readonly string bullet = Color.Yellow("|");
     public static readonly string player = Color.Green(@"/\");
-    public static readonly string enemy = Color.Red("-o-");
+    public static readonly string enemyS = Color.Red("-o-");
+    public static readonly string enemyP = Color.Red("(+)");
     public static readonly string star = ".";
     public static readonly string blueStar = Color.Blue("*");
 
@@ -34,13 +35,13 @@ public class Draw
         }
     }
 
-    public static void GameObjects(List<GameObject> gameObjects, string grafix, bool isStar = false)
+    public static void GameObjects(List<GameObject> gameObjects, bool isStar = false)
     {
         if (!isStar)
         {
             for (int i = 0; i < gameObjects.Count; i++)
             {
-                SetCursorAndDraw(gameObjects[i].xPos, gameObjects[i].yPos, grafix);
+                SetCursorAndDraw(gameObjects[i].xPos, gameObjects[i].yPos, gameObjects[i].grafix);
             }
         }
         else
@@ -49,13 +50,13 @@ public class Draw
             {
                 if (!star.hasCollison)
                 {
-                    SetCursorAndDraw(star.xPos, star.yPos, Grafix.star);
-                }                    
+                    SetCursorAndDraw(star.xPos, star.yPos, star.grafix);
+                }
                 else
                 {
-                    SetCursorAndDraw(star.xPos, star.yPos, Grafix.blueStar);
+                    SetCursorAndDraw(star.xPos, star.yPos, star.grafix);
                 }
-                    
+
             }
         }
 
@@ -82,6 +83,9 @@ public class Draw
             }
         }
     }
+
+    
+
     public static void Info(bool isDebug = true)
     {
         int windowSizeX = Settings.windowSizeX;
@@ -95,16 +99,20 @@ public class Draw
         string live = Color.Red("¤ ");
         string totallives = "Lives: ";
 
+        SetCursorAndDraw(windowSizeX - 20, 3, new string(' ', totallives.Length + (5 * 2)));
+        
+
         for (int i = 0; i < Program.player.GetLives(); i++)
         {
             totallives += live;
         }
-        // for (int i = 0; i < 15; i++)
-        {
-            SetCursorAndDraw(windowSizeX - i, 3);
-        }
+
+
+
         SetCursorAndDraw(windowSizeX - 20, 3, totallives);
 
+        Program.gameSpeedAdj = Grafix.frameCounter / 1000;
+        Program.player.SetLevel(Program.gameSpeedAdj);
         if (isDebug)
         {
             // Debug:
@@ -113,6 +121,8 @@ public class Draw
             //SetCursorAndWrite(windowSizeX - 20, 1, debug);
             SetCursorAndDraw(5, 0, debug + "   starCount/starsOnScreen: " + Program.starCount.ToString().PadLeft(3, '0') + "/" + Program.stars.Count.ToString().PadLeft(2, '0'));
         }
+
+        
     }
 
 }

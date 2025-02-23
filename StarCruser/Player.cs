@@ -1,6 +1,6 @@
 ﻿public class Player
 {
-    private string _name;
+    private string  _name;
     private int _posX;
     private int _posY;
     private int _lives;

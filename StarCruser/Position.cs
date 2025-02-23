@@ -1,26 +1,42 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 
 class Position
 {
+    static int[] playerPosStart = { 0, 0 };
+    static int[] playerPosEnd = { 0, 0 };
+
+    static void GetPlayerPosition()
+    {
+        playerPosStart[0] = Program.player.GetPosX();
+        playerPosStart[1] = Program.player.GetPosY();
+        playerPosEnd[0] = Program.player.GetPosX() + 1;
+        playerPosEnd[1] = Program.player.GetPosY();
+    }
+
+    static void UpdateLives()
+    {
+        Program.player.SetLives(Program.player.GetLives() - 1);
+        if (Program.player.GetLives() == 0)
+        {
+            Console.Clear();
+            Console.WriteLine("GameOver!!!");
+            Program.isRunning = false;
+        }
+    }
     public static void UpdateStarPositions(List<GameObject> stars)
     {
+        GetPlayerPosition();
         for (int i = stars.Count - 1; i >= 0; i--)
         {
             GameObject star = stars[i];
             Draw.SetCursorAndDraw(star.xPos, star.yPos);
-            int[] playerPosStart = { Program.player.GetPosX(), Program.player.GetPosY()};
-            int[] playerPosEnd = { Program.player.GetPosX() + Grafix.player.Length, Program.player.GetPosY() };
+
             star.yPos++;
             int[] starPos = { star.xPos, star.yPos };
             if (star.hasCollison && (playerPosStart.SequenceEqual(starPos) || playerPosEnd.SequenceEqual(starPos)))
             {
-                Program.player.SetLives(Program.player.GetLives()-1);
-                if (Program.player.GetLives() == 0)
-                {
-                    Console.Clear();
-                    Console.WriteLine("GameOver!!!");
-                    Environment.Exit(0);
-                }
+                UpdateLives();
             }
             if (star.yPos > Settings.windowSizeY - 1)
             {
@@ -35,7 +51,7 @@ class Position
             Program.GameTick(speed);
             return;
         }
-        
+
         for (int i = list.Count - 1; i >= 0; i--)
         {
 
@@ -43,12 +59,12 @@ class Position
             Draw.SetCursorAndDraw(p.xPos, p.yPos);
             if (p.isPlayer)
             {
-                
+
                 p.yPos--;
             }
             else
             {
-                
+
                 p.yPos++;
             }
             if (p.yPos < 5 || p.yPos > Settings.windowSizeY - 2)
@@ -58,6 +74,35 @@ class Position
         }
         Program.GameTick(speed);
     }
+    static int repositionCounterX = 0;
+    static int repositionCounterY = 0;
+    static bool moveLeft = false;
+
+    public static bool IsProjectilHit(GameObject gameObject, GameObject projectil, int hitBoxSize)
+    {
+        return projectil.yPos == gameObject.yPos && Math.Abs(projectil.xPos - gameObject.xPos) <= hitBoxSize;
+    }
+
+    public static void CheckProjectilesCollision(List<GameObject> gameObjects)
+    {
+        for(int i = gameObjects.Count - 1; i >= 0; i--)
+        {
+            GameObject gameObject = gameObjects[i];
+            if (gameObject.hasCollison)
+            {
+                foreach (GameObject p in Program.projectils)
+                {
+                    if (IsProjectilHit(gameObject, p, gameObject.hitBoxSize))
+                    {
+                        gameObjects.RemoveAt(i);
+                        Program.player.SetScore(Program.player.GetScore() + gameObject.scoreValue);
+                    }
+                }
+            }
+        }
+
+
+    }
     public static void UpdateEnemyPosition(List<GameObject> enemies)
     {
         int windowSizeX = Settings.windowSizeX;
@@ -65,41 +110,59 @@ class Position
         for (int i = enemies.Count - 1; i >= 0; i--)
         {
             GameObject enemy = enemies[i];
-            if (enemy.xPos + 3 < windowSizeX - 1 && enemy.xPos - 1 > 0)
+            
+            if (repositionCounterX >= enemies.Count * 20)
             {
-                switch (Program.timesUpdatePosX)
+                moveLeft = !moveLeft;
+                repositionCounterX = 0;
+                repositionCounterY++;
+            }
+            if (!moveLeft)
+            {
+                if (enemy.xPos + 3 < windowSizeX - 2)
                 {
-                    case < 11:
-                        Draw.SetCursorAndDraw(enemy.xPos, enemy.yPos, "   ");
-                        enemy.xPos++;
-                        break;
-
-                    case int n when (n > 10 && n < 21):
-                        Draw.SetCursorAndDraw(enemy.xPos, enemy.yPos, "   ");
-                        enemy.xPos--;
-                        break;
-
-                    case 21:
-                        Program.timesUpdatePosX = 0;
-                        Program.timesUpdatePosY++;
-                        break;
+                    Draw.SetCursorAndDraw(enemy.xPos, enemy.yPos, "   ");
+                    enemy.xPos += enemy.moveSpeed;
+                    repositionCounterX++;
                 }
-
-                if (Program.timesUpdatePosY == 50)
+                else
                 {
-                    foreach (var en in enemies)
-                    {
-                        Draw.SetCursorAndDraw(en.xPos, en.yPos, "   ");
-                        en.yPos++;
-                    }
-                    Program.timesUpdatePosY = 0;
+                    Draw.SetCursorAndDraw(enemy.xPos, enemy.yPos, "   ");
+                    enemy.xPos = 2;
+                    repositionCounterX++;
                 }
+            }
+            else
+            {
+                if (enemy.xPos - 3 >  2)
+                {
+                    Draw.SetCursorAndDraw(enemy.xPos, enemy.yPos, "   ");
+                    enemy.xPos -= enemy.moveSpeed;
+                    repositionCounterX++;
+                }
+                else
+                {
+                    Draw.SetCursorAndDraw(enemy.xPos, enemy.yPos, "   ");
+                    enemy.xPos = windowSizeX - 4;
+                    repositionCounterX++;
+                }
+            }
+            if(repositionCounterY == 1)
+            {
+                foreach(var en in enemies)
+                {
+                    Draw.SetCursorAndDraw(en.xPos, en.yPos, "   ");
+                    en.yPos += en.moveSpeed; 
+                }
+                repositionCounterY = 0;
             }
             if (enemies[i].yPos == Settings.windowSizeY - 1)
             {
                 enemies.Remove(enemy);
+                UpdateLives();
+
             }
         }
-        Program.timesUpdatePosX++;
+
     }
 }
