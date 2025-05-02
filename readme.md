@@ -1,7 +1,7 @@
 ﻿# 🚀 StarCruiser – A Console Space Shooter in C#
 
 **StarCruiser** is a retro-style space shooter built entirely in C# using the console as graphical interface. It features keyboard-controlled ship movement, projectile mechanics, enemies, stars, explosions, and real-time rendering using `Console.SetCursorPosition`.
-
+<img src="">
 ---
 
 ## 🎮 Features
@@ -37,7 +37,7 @@
 2. Build with Visual Studio targeting **.NET Framework 4.7.2**
 3. Run in a real Windows Console (not VS debug console!)
 
-Or download() 
+Or [download](https://github.com/DRgreenT/StarCruiser/blob/master/build/StarCruiser.exe) 
 
 Use arrow keys to move and spacebar to shoot
 
